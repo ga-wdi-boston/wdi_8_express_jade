@@ -1,0 +1,25 @@
+extend layout
+block main
+  h1 Contacts
+    //- iterating through all of the contacts here
+    for contact in contacts
+      h3 Name: #{contact.firstName} #{contact.lastName}
+      h4 Title: #{contact.title}
+      //- // checking to see if we have email addresses
+      if (contact.emailAddresses.length > 0)
+        h4 Email Addresses:
+        //- // iterating through email addresses
+        for email in contact.emailAddresses
+          p #{email.emailAddressType}: #{email.emailAddress}
+      if (contact.phoneNumbers.length > 0)
+        h4 Phone Numbers:
+        //- // iterating through phone numbers
+        for phone in contact.phoneNumbers
+          p #{phone.phoneNumberType}: #{phone.phoneNumber}
+      if (contact.addresses.length > 0)
+        h4 Addresses:
+        //- // iterating through addresses
+        for address in contact.addresses
+          p #{address.street},
+          p #{address.city}, #{address.state} #{address.zipCode}
+          p #{address.country}
