@@ -8,8 +8,7 @@
   },
   "author": "Charlton Wilbur",
   "license": "BSD-3-Clause",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-blanket": "0.0.8",
@@ -24,8 +23,11 @@
     "grunt-nodemon": "^0.4.0",
     "grunt-open": "^0.2.3",
     "grunt-plato": "^1.2.1",
+    "jade": "^1.11.0",
     "load-grunt-config": "^0.17.1",
     "mongodb": "^2.0.34",
+    "nib": "^1.1.0",
+    "stylus": "^0.51.1",
     "time-grunt": "^1.2.1"
   },
   "repository": {
