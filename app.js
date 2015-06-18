@@ -49,8 +49,9 @@ app.get('/contacts/:id', function(req, res) {
   });
 });
 
-app.post('/contacts', jsonParser);
+app.post('/contacts', bodyParser);
 app.post('/contacts', function(req, res) {
+  console.log(req.body);
   Contact.create(req.body, function(error, contact) {
     if (error) {
       console.log(error);

@@ -1,0 +1,19 @@
+
+script(type="text/javascript").
+  $(document).ready(function(){
+    $('form[name="new-contact"]').on('submit', function(event){
+      event.preventDefault();
+      var contact = {
+        firstName: $('input[name="first-name"]').val(),
+        lastName: $('input[name="last-name"]').val(),
+        title: $('input[name="title"]').val()
+      };
+      $.ajax({
+        method: 'POST',
+        url: 'http://localhost:3000/contacts',
+        data: contact
+      }).done(function(response){
+        console.log('awesome work there kiddo!');
+      })
+    });
+  });
