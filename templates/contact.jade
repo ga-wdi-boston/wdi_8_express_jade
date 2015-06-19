@@ -1,0 +1,16 @@
+h3 Name: #{firstName} #{lastName}
+h4 Title: #{title}
+if (emailAddresses.length > 0)
+  h4 Email Addresses:
+  for email in emailAddresses
+    p #{email.emailAddressType}: #{email.emailAddress}
+if (phoneNumbers.length > 0)
+  h4 Phone Numbers:
+  for phone in phoneNumbers
+    p #{phone.phoneNumberType}: #{phone.phoneNumber}
+if (addresses.length > 0)
+  h4 Addresses:
+  for address in addresses
+    p #{address.street},
+    p #{address.city}, #{address.state} #{address.zipCode}
+    p #{address.country}

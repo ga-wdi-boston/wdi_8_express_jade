@@ -9,6 +9,7 @@ var jsonParser = bodyParser.json();
 
 
 var jade = require('jade');
+var fs = require('fs');
 var stylus = require('stylus');
 var nib = require('nib');
 
@@ -49,16 +50,23 @@ app.get('/contacts/:id', function(req, res) {
   });
 });
 
-app.post('/contacts', bodyParser);
+app.post('/contacts', jsonParser);
 app.post('/contacts', function(req, res) {
-  console.log(req.body);
   Contact.create(req.body, function(error, contact) {
     if (error) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      res.sendStatus(201);
-    }
+      fs.readFile('./templates/contact.jade', 'utf8', function (err, data) {
+        if (err){
+          res.sendStatus(400);
+        };
+        var contactCompiler = jade.compile(data);
+        var html = contactCompiler(contact);
+        res.json(html);
+        res.status(201);
+      });
+    };
   });
 });
 

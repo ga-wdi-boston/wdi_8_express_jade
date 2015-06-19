@@ -11,8 +11,10 @@ script(type="text/javascript").
       $.ajax({
         method: 'POST',
         url: 'http://localhost:3000/contacts',
-        data: contact
+        data: JSON.stringify(contact),
+        contentType: "application/json; charset=utf-8"
       }).done(function(response){
+        $('.contacts').append(response);
         console.log('awesome work there kiddo!');
       })
     });

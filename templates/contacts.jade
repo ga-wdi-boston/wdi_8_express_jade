@@ -1,7 +1,7 @@
 extend layout
 block main
   h1 Contacts
-    //- iterating through all of the contacts here
+  .contacts
     for contact in contacts
       h3 Name: #{contact.firstName} #{contact.lastName}
       h4 Title: #{contact.title}
