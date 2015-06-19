@@ -373,8 +373,46 @@ Please notice a detail though: our callback is *expecting to recieve a string of
 
 ### Reading files with fs
 
-We start with
+We start with our route handlers:
 
+We start with our route handlers:
+
+```javascript
+app.post('/contacts', jsonParser);
+app.post('/contacts', function(req, res) {
+
+});
+```
+We are expecting json, so we include our jsonParser middlewear.
+
+Next, we write our mongoose code to create a new contact document:
+
+```javascript
+  Contact.create(req.body, function(error, contact) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+    //  nothing here yet!!!
+      });
+    };
+  });
+```
+
+We handle any errors that may come up in the creation process, but we have yet to tell our server to do anything after the contact document gets created.
+
+Here's where our File System module comes into play. We are going to use it to read our `contact` template:
+
+```javascript
+fs.readFile('./templates/contact.jade', 'utf8', function (err, data) {
+  if (err){
+    res.sendStatus(400);
+  };
+  // nothing to see here
+});
+```
+
+`.readFile` is a method of fs that does exactly what you'd expect. We pass it a path to the file we want it to read, the type of encoding of the file, and a callback that takes both an error and the contents of the file as 'data'.
 
 
 
