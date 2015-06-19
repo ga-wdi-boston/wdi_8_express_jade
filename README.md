@@ -123,15 +123,9 @@ Finally, we need to mount our new apiRouter on our express app and apply our '/a
 app.use('/api', apiRouter);
 ```
 
-## Lets Generate HTML on this Server.
+## Let's Generate HTML on this Server.
 
 Up until now we've been generating only JSON on the server. But, tradionally web apps generate HTML, CSS and JS on the server. The generated code and content is sent to the browser in the body of the HTTP Response.
-
-**Draw a Diagram of this.**
-
-### EXCERCISE #1:
-
-**Add this to the app.js file**
 
 This will create a route for '/'.
 
@@ -412,7 +406,63 @@ fs.readFile('./templates/contact.jade', 'utf8', function (err, data) {
 });
 ```
 
-`.readFile` is a method of fs that does exactly what you'd expect. We pass it a path to the file we want it to read, the type of encoding of the file, and a callback that takes both an error and the contents of the file as 'data'.
+`.readFile` is a method of fs that does exactly what you'd expect. We pass it a path to the file we want it to read, the type of encoding of the file, and a callback that takes both an error and the contents of the file as 'data'. In the callback, we handle the error first, then we will compile the template using jade. That comes next.
+
+### Return to handlebars island
+
+Compiling our template may sound intimidating, but the syntax is almost identical to what we used with handlebars. We pass the jade template (stored as the variable 'data') into `jade.compile`, which produces our `.contactCompiler` function. Then, we call our compiler function on our newly created contact, which returns our stringified json. Finally we send the data back to our ajax request with a created header.
+
+```javascript
+var contactCompiler = jade.compile(data);
+var html = contactCompiler(contact);
+res.json(html);
+res.status(201);
+```
+
+All together, our route looks like:
+
+```javascript
+app.post('/contacts', jsonParser);
+app.post('/contacts', function(req, res) {
+  Contact.create(req.body, function(error, contact) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      fs.readFile('./templates/contact.jade', 'utf8', function (err, data) {
+        if (err){
+          res.sendStatus(400);
+        };
+        var contactCompiler = jade.compile(data);
+        var html = contactCompiler(contact);
+        res.json(html);
+        res.status(201);
+      });
+    };
+  });
+});
+```
+
+Whoops, we almost forgot our `contact.jade` template! In keeping our list uniform, lets just copy the code out of our `contacts.jade` and make our `contact.jade` look like:
+
+```jade
+h3 Name: #{firstName} #{lastName}
+h4 Title: #{title}
+if (emailAddresses.length > 0)
+  h4 Email Addresses:
+  for email in emailAddresses
+    p #{email.emailAddressType}: #{email.emailAddress}
+if (phoneNumbers.length > 0)
+  h4 Phone Numbers:
+  for phone in phoneNumbers
+    p #{phone.phoneNumberType}: #{phone.phoneNumber}
+if (addresses.length > 0)
+  h4 Addresses:
+  for address in addresses
+    p #{address.street},
+    p #{address.city}, #{address.state} #{address.zipCode}
+    p #{address.country}
+```
 
 
 
