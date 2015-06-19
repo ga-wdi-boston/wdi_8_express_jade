@@ -99,7 +99,7 @@ var Contact = require('./lib/contacts.js');
 // Add the Utilities module, lot's of helpful function be here.
 var util = require('util');
 ```
-### Spin off our previous routes in a separate model
+### Spin off our previous routes in a separate router
 
 We want our server to both render json AND render html depending on which route a user hits. We can accomplish this the way we talked about earlier, where we specifically type out each individual route with its appropriate base, or we can spin off our API functionality into a separate router. Let's go behind door number 2.
 
@@ -219,7 +219,7 @@ Go to `/` in you browser to check that the proper HTML was generated and returne
 
 Once you do this, create a `layout.jade` and extend it onto your `index.jade` template.
 
-### Iteration and Embedded Code with Jade
+### Looping and connecting with javascript in Jade
 
 Rendering our list of contacts will take a few more tricks of the trade.
 
@@ -240,7 +240,7 @@ for contact in contacts
 
 Our second hiccup comes when we go to render the various address of our contacts. Not only do we want to iterate through these, but we want to check to see if they exist, and if not, we don't want to render any references to them.
 
-Jade allows you to embed javascript right into your templates. We won't go too deeply into the specifics of this, but we will use conditional logic to check to see whether or not our contacts have certain sets of contact information. Here's email addresses for example:
+Jade allows you to use javascript right into your templates. We won't go too deeply into the specifics of this, but we will use conditional logic to check to see whether or not our contacts have certain sets of contact information. Here's email addresses for example:
 
 ```jade
 if (contact.emailAddresses.length > 0)
@@ -369,8 +369,6 @@ Please notice a detail though: our callback is *expecting to recieve a string of
 
 We start with our route handlers:
 
-We start with our route handlers:
-
 ```javascript
 app.post('/contacts', jsonParser);
 app.post('/contacts', function(req, res) {
@@ -415,7 +413,7 @@ Compiling our template may sound intimidating, but the syntax is almost identica
 ```javascript
 var contactCompiler = jade.compile(data);
 var html = contactCompiler(contact);
-res.json(html);
+res.send(html);
 res.status(201);
 ```
 
@@ -464,10 +462,17 @@ if (addresses.length > 0)
     p #{address.country}
 ```
 
+Now, let's try it! Fire up your server, navigate over to `http://localhost:3000/contacts` and try to create a contact! If the contact doesn't appear, you done goofed.
 
+## LAB, YOU DO
 
+Create a post route in your articles app for '/articles'.
 
+Create form and script jade templates.
 
+Build out your single page upload functionality.
+
+Go to `/articles`, create an article, and watch it get rendered like magic.
 
 
 ## References
