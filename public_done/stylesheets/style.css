@@ -1,0 +1,25 @@
+@import url("http://fonts.googleapis.com/css?family=OpenSans");
+body {
+  background-color: #c25b56;
+font-family
+}
+#hero {
+  margin-left: 20px;
+}
+.container {
+  width: 600px;
+  margin: 50px auto;
+  font-family: 'Open Sans', sans-serif;
+  overflow: hidden;
+  background-color: #beb9b5;
+}
+.contacts {
+  float: left;
+  width: 360px;
+  padding: 20px;
+}
+.form {
+  float: right;
+  width: 140px;
+  padding: 20px;
+}

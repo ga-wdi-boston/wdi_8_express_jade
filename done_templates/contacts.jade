@@ -1,6 +1,5 @@
 extend layout
 block main
-  h1 Contacts
   .contacts
     for contact in contacts
       h3 Name: #{contact.firstName} #{contact.lastName}
@@ -23,6 +22,6 @@ block main
           p #{address.street},
           p #{address.city}, #{address.state} #{address.zipCode}
           p #{address.country}
-
-  include form.jade
+  .form
+    include form.jade
   include ajax.jade

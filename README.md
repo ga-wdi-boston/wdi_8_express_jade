@@ -2,7 +2,11 @@
 
 ## Server-Side Rendering
 
-Want to render things without a front-end app? We've got you covered. A lot of tradition systems use this type of system so you should know how it works.
+Server side rendering allows you to render html in the client without the use of a frontend app.
+
+### Why render in your server?
+
+Perceived faster DOM load speeds
 
 Allows you control
 
@@ -10,33 +14,47 @@ Cache the whole site
 
 ### The Modules
 
-In this excercise, we will be using three modules: Jade, Stylus and Nib
+In this excercise, we will be using two modules: Jade and File System.
 
 Jade is a server-side view engines. Much like we used handlebars on our front end to bind data to a template. We will be creating templates as `.jade` files, and passing them data in our express routes.
 
-Stylus is a CSS pre-processor. It allows us to do some nify things with our stylesheets like create mixins and variables. It also frees us from having to use semi-colons and colons. Pretty nifty, right? Anyone who has ever used SASS or LESS will find this sort of deal familiar. We won't dive too far into Stylus, but it's nice to know about.
+File System is a module that allows you to read and write to files in your node server.
 
-Nib is a library built specifically for Stylus. It provides many pre-built mixins that will make your life easier, but most importantly, it frees you from having to include vendor prefixes in your CSS. ~Amazing~
+We will mostly be focusing on Jade in this lesson, but we will make use of FS later on.
 
-Let's go ahead and install these:
+### The Setup
+
+Let's go ahead and install Jade and our other dependecies:
 
 ```
 npm install jade --save-dev
-npm install stylus --save-dev
-npm install nib --save-dev
+npm install
 ```
+FS is part of core node, so we do not need to install it.
 
 Now, we need to import these modules into our `app.js`. Near the top of our page, let's add:
 
 ```javascript
 var jade = require('jade');
-var stylus = require('stylus');
-var nib = require('nib');
+var fs = require('fs');
 ```
 
-As we know by now, it's not enough to just import these middlewear modules. We need to explicitly tell our Express app to include them.
+As we know by now, it's not enough to just import these middlewear modules. We need to explicitly tell our Express app to include them:
 
-EXCERCISE #1:
+```javascript
+app.set('view engine', 'jade');
+app.set('views', './templates');
+```
+
+First, we set jade as the view engine of our Express app. This tells express to use our Jade middlewear whenever we call `.render`. Next, we set a designated folder that Express will look to for our Jade templates. Since we don't have a templates directory yet, let's create one in the root of our app.
+
+### Baby Steps
+
+We've tossed around terms like server-side rendering and view engines by now, and you may confused about what these are, so let's go through a quick example so you can see the practice in action.
+
+First, let's create our first Jade template. Navigate into your templates directory and touch a file called `index.jade`. We will use the `.jade` extension for all of our templates.
+
+Jade has an unfamiliar, but simple syntax. We always harp on you guys to indent properly for readability-sake, but with Jade
 
 ```javascript
 app.get('/', function(req, res) {
