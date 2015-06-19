@@ -1,12 +1,12 @@
 {
-  "name": "wdi-8-mongoose-intro",
+  "name": "wdi_8_express_jade",
   "version": "0.1.0",
   "description": "the basics of express.",
   "main": "app.js",
   "scripts": {
     "test": "grunt jasmine-nodejs"
   },
-  "author": "Charlton Wilbur",
+  "author": "Max Blaushild",
   "license": "BSD-3-Clause",
   "dependencies": {},
   "devDependencies": {
