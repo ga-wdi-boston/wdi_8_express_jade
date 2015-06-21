@@ -10,6 +10,8 @@ var jsonParser = bodyParser.json();
 // we import jade and js
 var jade = require('jade');
 var fs = require('fs');
+var stylus = require('stylus');
+var nib = require('nib');
 // we import our contact model
 var Contact = require('./lib/contacts.js');
 
@@ -17,7 +19,18 @@ var util = require('util');
 
 // we set our view engine here
 app.set('view engine', 'jade');
-app.set('views', './templates');
+app.set('views', './done_templates');
+
+// creates a compile function that calls the stylus and nib middlewear in our stack
+function compile(str, path) {
+  return stylus(str)
+    .set('filename', path)
+    .use(nib())
+};
+
+// we set up express to use our stylus middlewear and pass in our compile function as an object here
+app.use(stylus.middleware({ src: __dirname + '/public_done', compile: compile }));
+app.use(express.static(__dirname + '/public_done'));
 
 // THIS IS OUR API
 // =================================================
@@ -106,7 +119,7 @@ app.post('/contacts', function(req, res) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      fs.readFile('./templates/contact.jade', 'utf8', function (err, data) {
+      fs.readFile('./done_templates/contact.jade', 'utf8', function (err, data) {
         if (err){
           res.sendStatus(400);
         };
