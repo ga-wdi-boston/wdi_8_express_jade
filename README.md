@@ -502,9 +502,9 @@ script(src='scripts/app.js')
 
 to the bottom of your layout, one tab over from your body tag.
 
-Then, restart your server, open up your browswer, and make sure that your app still works.
+Then, restart your server, open up your browser, and make sure that your app still works.
 
-## CSS of Steroids with Stylus and Nib.
+## CSS on Steroids with Stylus and Nib
 
 At this point, we could style our app with css stylesheet. However, a node module provides us with a more flexible, powerful option.
 
@@ -587,7 +587,7 @@ Either paste this into your `style.styl` file, or make your own styles. IDGAF.
 
 Now, when we run our server, Stylus will compile our `style.styl` file and create+write equivalent css to a file in the same directory called `style.css`.
 
-We aren't done yet tho. We still need to link to our to-be-created stylesheet in our `layout.jade`.
+We aren't done yet though. We still need to link to our to-be-created stylesheet in our `layout.jade`.
 
 With this line insert into the head of our template, we should see style and color breathed into our contacts page:
 
