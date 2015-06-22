@@ -375,7 +375,7 @@ app.post('/contacts', function(req, res) {
 
 });
 ```
-We are expecting json, so we include our jsonParser middlewear.
+We are expecting json, so we include our jsonParser middleware.
 
 Next, we write our mongoose code to create a new contact document:
 
@@ -473,6 +473,139 @@ Create form and script jade templates.
 Build out your single page upload functionality.
 
 Go to `/articles`, create an article, and watch it get rendered like magic.
+
+## Serving Static Files
+
+Our site looks pretty hideous as is. We have no styling, and if we wanted to use more javascript, our script tag would become cumbersome and hard to manage.
+
+When we use a grunt server, or our ruby webrick server, our whole directory is served. Node is more selective. If we want to serve up static files (Perhaps a stylesheet? Maybe some javascripts?) along with our render html, we need to explicitly tell our app to do so.
+
+Express has built in middleware to help us accomplish this task. Calling `express.static` on the path to a directory of static files we want to serve returns middleware that allows us to serve said files.
+
+```javascript
+app.use(express.static(__dirname + '/public'));
+```
+
+In nodeland, `__dirname` is a reference to the directory in which the executed file resides. Therefore, in the line above, we create the middleware that allows us to serve static files from a directory called 'public', then tell our Express app to use the middleware.
+
+Now, our response will include whatever files we put in our 'public' directory.
+
+Touch a 'public' directory in the root of your app, then touch a directory called 'scripts' inside of it. Next, touch a file called 'app.js' inside of your scripts directory. We're going to move our ajax call from a script tag to this file. Let's copy and past our javascript from our `ajax.jade` file to our newly created `scripts/app.js` file.
+
+Finally, we need to link to our new javascript file into our `layout.jade`.
+
+Add this line:
+
+```jade
+script(src='scripts/app.js')
+```
+
+to the bottom of your layout, one tab over from your body tag.
+
+Then, restart your server, open up your browswer, and make sure that your app still works.
+
+## CSS of Steroids with Stylus and Nib.
+
+At this point, we could style our app with css stylesheet. However, a node module provides us with a more flexible, powerful option.
+
+[Stylus](https://learnboost.github.io/stylus/) is a css pre-processer. It allows us to write css with variables, mixins, functions; you name it. It also frees us from having to use semi-colons or colons in our css. Anyone who has experience with SASS or LESS will find stylus familiar.
+
+We will also be using a library for stylus call [Nib](http://tj.github.io/nib/). Once imported into our stylesheet, it gives us a number of premade mixins. Most importantly however, it frees us from having to use vendor prefixes with our styles. Isn't that nice?
+
+First, we need to install both of these packages. Go ahead and run:
+
+```
+npm install stylus
+npm install nib
+```
+
+Now that we have these packages in our repository, we need to import them into our server:
+
+```javascript
+var stylus = require('stylus');
+var nib = require('nib');
+```
+
+Next, we create a function that configures how Stylus processes raw `.styl` files. This function is taken straight from the Stylus documentation, save for one minor addition. We expose Stylus to Nib in the last line of our function.
+
+```javascript
+// creates a compile function that calls the stylus and nib middlewear in our stack
+function compile(str, path) {
+  return stylus(str)
+    .set('filename', path)
+    .use(nib())
+};
+```
+
+Afterwards, we need to tell our Express app to use stylus as middleware. As we pass in the middleware into our app's handler chain, we configure it by telling it both where to look for `.styl` files, and what function to use to compile them. We are using the function we just created.
+
+```javascript
+// we set up express to use our stylus middlewear and pass in our compile function as an object here
+app.use(stylus.middleware({ src: __dirname + '/public', compile: compile }));
+```
+
+Now, we are all set to create a `.styl` file! Touch a directory inside of 'public' called 'stylesheets'. Inside of this new directory, touch a file called 'style.styl'.
+
+We won't get rabbit-holed into the functionality that Stylus provides, but I invite you to check out their [documentation](https://learnboost.github.io/stylus/) and get exploring yourself.
+
+Instead, I have created a quick-and-dirty .styl stylesheet:
+
+```stylus
+@import 'nib'
+
+container-color = #BEB9B5
+background-color = #C25B56
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+body
+  background-color background-color
+  font-family
+
+#hero
+  margin-left 20px
+
+.container
+  width 600px
+  margin 50px auto
+  font-family 'Open Sans', sans-serif
+  overflow hidden
+  background-color container-color
+
+.contacts
+  float left
+  width 360px
+  padding 20px
+
+.form
+  float right
+  width 140px
+  padding 20px
+```
+
+Either paste this into your `style.styl` file, or make your own styles. IDGAF.
+
+Now, when we run our server, Stylus will compile our `style.styl` file and create+write equivalent css to a file in the same directory called `style.css`.
+
+We aren't done yet tho. We still need to link to our to-be-created stylesheet in our `layout.jade`.
+
+With this line insert into the head of our template, we should see style and color breathed into our contacts page:
+
+```jade
+link(rel='stylesheet', href='/stylesheets/style.css')
+```
+
+## LAB, YOU DO
+
+Style your articles app!
+
+First, create a 'public' folder and configure your app to serve it with your rendered html.
+
+Next Stylus and Nib and include them as middleware in your Express app.
+
+Then, create your `.styl` file and go to town!
+
+Remember to add all appropriate tags to your `layout.jade` file.
 
 
 ## References
