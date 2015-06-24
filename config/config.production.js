@@ -3,7 +3,7 @@ var util = require('util');
 
 console.log('we are in PRODUCTION mode');
 
-config.mongo.dbUrl = 'mongodb://localhost/contacts';
+config.mongo.dbUrl = 'mongodb://cwilbur:secret_password@ds041651.mongolab.com:41651/contacts';
 
 https: //fierce-earth-4655.herokuapp.com/
 config.web.hostname = 'fierce-earth-4655.herokuapp.com';

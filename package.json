@@ -4,7 +4,8 @@
   "description": "the basics of express.",
   "main": "app.js",
   "scripts": {
-    "test": "grunt jasmine-nodejs"
+    "test": "grunt jasmine-nodejs",
+    "start": "node app.js"
   },
   "author": "Charlton Wilbur",
   "license": "BSD-3-Clause",
