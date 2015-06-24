@@ -1,4 +1,4 @@
-## Server-Side Rendering
+  ## Server-Side Rendering
 
 Traditionally servers generated the content that was viewed in a browser. Another words all the HTML/CSS and JS that were to rendered and executed in the browser was sent to the browser when the page was initially loaded.
 

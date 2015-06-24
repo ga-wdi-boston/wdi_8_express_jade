@@ -1,6 +1,7 @@
 var async = require('async');
+var contacts = require('../config');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/contacts');
+mongoose.connect(config.mongo.dbUrl);
 
 var Contact = require('../lib/contacts.js');
 

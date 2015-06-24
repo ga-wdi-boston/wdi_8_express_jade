@@ -1,14 +1,18 @@
+var config = require('./config');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/contacts');
+mongoose.connect(config.mongo.dbUrl);
 
 var express = require('express');
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
+var morgan = require('morgan');
 var app = express();
 
 var Contact = require('./lib/contacts.js');
 
 var util = require('util');
+
+app.use(morgan('dev'));
 
 app.get('/contacts', function(req, res) {
   Contact.find({}, function(error, contactList) {
@@ -75,7 +79,7 @@ app.delete('/contacts/:id', function(req, res) {
   });
 });
 
-var server = app.listen(3000, function() {
+var server = app.listen(config.web.serverPort, function() {
 
   var host = server.address().address;
   var port = server.address().port;

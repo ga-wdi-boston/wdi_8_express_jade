@@ -1,6 +1,7 @@
+var config = require('./config');
 // we import mongoose and connect it to our db
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/contacts');
+mongoose.connect(config.mongo.dbUrl);
 // we import express and create a new instance of express
 var express = require('express');
 var app = express();
@@ -29,7 +30,10 @@ function compile(str, path) {
 };
 
 // we set up express to use our stylus middlewear and pass in our compile function as an object here
-app.use(stylus.middleware({ src: __dirname + '/public_done', compile: compile }));
+app.use(stylus.middleware({
+  src: __dirname + '/public_done',
+  compile: compile
+}));
 app.use(express.static(__dirname + '/public_done'));
 
 // THIS IS OUR API
@@ -46,8 +50,10 @@ apiRouter.get('/contacts/:id', function(req, res) {
   });
 });
 
-apiRouter.get('/', function(req, res){
-  res.json({name:'Hello World!'});
+apiRouter.get('/', function(req, res) {
+  res.json({
+    name: 'Hello World!'
+  });
 });
 
 apiRouter.put('/contacts/:id', jsonParser);
@@ -102,12 +108,17 @@ app.use('/api', apiRouter);
 // THIS IS OUR CLIENTSIDE INTERFACE
 // =================================================
 app.get('/', function(req, res) {
-  res.render( 'index', {name: "Max", message: 'Welcome to our contacts page! I hope you have a good stay.'});
+  res.render('index', {
+    name: "Max",
+    message: 'Welcome to our contacts page! I hope you have a good stay.'
+  });
 });
 
 app.get('/contacts', function(req, res) {
   Contact.find({}, function(error, contactList) {
-    res.render( 'contacts', {contacts: contactList});
+    res.render('contacts', {
+      contacts: contactList
+    });
   });
 });
 
@@ -119,8 +130,8 @@ app.post('/contacts', function(req, res) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      fs.readFile('./done_templates/contact.jade', 'utf8', function (err, data) {
-        if (err){
+      fs.readFile('./done_templates/contact.jade', 'utf8', function(err, data) {
+        if (err) {
           res.sendStatus(400);
         };
         var contactCompiler = jade.compile(data);

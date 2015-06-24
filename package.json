@@ -8,7 +8,9 @@
   },
   "author": "Charlton Wilbur",
   "license": "BSD-3-Clause",
-  "dependencies": {},
+  "dependencies": {
+    "morgan": "^1.6.0"
+  },
   "devDependencies": {
     "async": "^1.2.1",
     "body-parser": "^1.13.1",
